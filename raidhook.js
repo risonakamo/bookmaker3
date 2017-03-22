@@ -1,6 +1,12 @@
 function runHook()
 {
-    console.log("runhook");
+    //raid hash:
+    if (window.location.hash!="#event/teamraid028/bookmaker")
+    {
+        return;
+    }
+
+    console.log("raidhook...");
     var newData=hook();
 
     if (newData==-1)
@@ -12,6 +18,8 @@ function runHook()
     }
 
     chrome.storage.local.get("pointsdata",function(d){
+        console.log("hooked");
+
         if (!d.pointsdata)
         {
             d.pointsdata=[];
@@ -21,7 +29,7 @@ function runHook()
         //first point (new data is not new data)
         if (d.pointsdata[d.pointsdata.length-1].points[0]==newData.points[0])
         {
-            console.log("repeat");
+            console.log("repeat data");
             return;
         }
 
@@ -47,6 +55,7 @@ function hook()
     });
 
     points.time=strTime();
+    console.log(strTime());
 
     return points;
 }
@@ -56,7 +65,7 @@ function strTime()
     var d=new Date();
     var m=d.getMinutes();
 
-    if (m.length==1)
+    if (m<10)
     {
         m="0"+m;
     }

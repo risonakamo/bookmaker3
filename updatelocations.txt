@@ -1,0 +1,3 @@
+files that need to be changed on raid update:
+raidhook.js
+popup.js
