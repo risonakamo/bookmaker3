@@ -1,0 +1,18 @@
+{
+    "manifest_version":2,
+    "name":"gbbookmaker3",
+    "version":"3",
+
+    "permissions":["tabs","storage","http://game.granbluefantasy.jp/*"],
+    
+    "content_scripts":
+    [{
+        "matches":["http://game.granbluefantasy.jp/*"],
+        "js":["raidhook.js"],
+        "run_at":"document_end"
+    }],
+
+    "browser_action":{
+        "default_popup":"popup.html"
+    }
+}
