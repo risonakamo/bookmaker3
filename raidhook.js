@@ -33,6 +33,7 @@ function runHook()
             return;
         }
 
+        console.log("new data");
         d.pointsdata.push(newData);
 
         chrome.storage.local.set(d);
@@ -48,15 +49,15 @@ function hook()
         return -1;
     }
 
-    var points={points:[]};
+    var points={points:[],rank:[0,1,2,3]};
 
     areas.forEach(function(e){
         points.points.push(e.innerHTML);
     });
 
     points.time=strTime();
-    console.log(strTime());
 
+    genPlaces(points);
     return points;
 }
 
@@ -71,6 +72,28 @@ function strTime()
     }
 
     return d.getHours()+":"+m;
+}
+
+//use on points object to sort rank data
+function genPlaces(d)
+{
+    cswap(d,0,1);
+    cswap(d,2,3);
+    cswap(d,0,2);
+    cswap(d,1,3);
+    cswap(d,1,2);
+}
+
+function cswap(d,i1,i2)
+{
+    if (d.points[d.rank[i1]]<d.points[d.rank[i2]])
+    {
+        return;
+    }
+
+    var a=d.rank[i1];
+    d.rank[i1]=d.rank[i2];
+    d.rank[i2]=a;
 }
 
 runHook();

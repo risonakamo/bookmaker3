@@ -7,3 +7,29 @@ td
 {
     width: 200px;
 }
+
+.tempscale
+{
+    width: 80px;
+    height: 50px;
+}
+
+.tc0
+{
+    color: #4161b4;
+}
+
+.tc1
+{
+    color: #b0d14c;
+}
+
+.tc2
+{
+    color: #fa9f1b;
+}
+
+.tc3
+{
+    color: #ea1f22;
+}

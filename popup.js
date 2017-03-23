@@ -16,17 +16,23 @@ function main()
         var ipoint=document.querySelector(".tdata tbody");
 
         ipoint.innerHTML=ipoint.innerHTML+html;
+
+        chrome.storage.local.set(d);
     });
 }
 
 function genTableEntry(data)
 {
+    //comment in to enable data correction
+    // data.rank=[0,1,2,3];
+    // genPlaces(data);  
+
     return `<tr>
 <td>${data.time}</td>
-<td>${data.points[0]}</td>
-<td>${data.points[1]}</td>
-<td>${data.points[2]}</td>
-<td>${data.points[3]}</td>
+<td class="tc${data.rank[0]}">${data.points[0]}</td>
+<td class="tc${data.rank[1]}">${data.points[1]}</td>
+<td class="tc${data.rank[2]}">${data.points[2]}</td>
+<td class="tc${data.rank[3]}">${data.points[3]}</td>
 </tr>\n`;
 }
 
@@ -39,6 +45,27 @@ function linkSet()
 
         chrome.tabs.create({url:raidurl});
     });
+}
+
+function genPlaces(d)
+{
+    cswap(d,0,1);
+    cswap(d,2,3);
+    cswap(d,0,2);
+    cswap(d,1,3);
+    cswap(d,1,2);
+}
+
+function cswap(d,i1,i2)
+{
+    if (d.points[d.rank[i1]]<d.points[d.rank[i2]])
+    {
+        return;
+    }
+
+    var a=d.rank[i1];
+    d.rank[i1]=d.rank[i2];
+    d.rank[i2]=a;
 }
 
 // function main2()
