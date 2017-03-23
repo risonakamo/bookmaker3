@@ -49,7 +49,7 @@ function hook()
         return -1;
     }
 
-    var points={points:[],rank:[0,1,2,3]};
+    var points={points:[]};
 
     areas.forEach(function(e){
         points.points.push(e.innerHTML);
@@ -74,26 +74,31 @@ function strTime()
     return d.getHours()+":"+m;
 }
 
-//use on points object to sort rank data
 function genPlaces(d)
 {
-    cswap(d,0,1);
-    cswap(d,2,3);
-    cswap(d,0,2);
-    cswap(d,1,3);
-    cswap(d,1,2);
-}
+    d.rank=new Array(4);
+    var ra=[];
 
-function cswap(d,i1,i2)
-{
-    if (d.points[d.rank[i1]]<d.points[d.rank[i2]])
+    for (var x=0;x<4;x++)
     {
-        return;
+        ra.push({p:d.points[x],r:x});
     }
 
-    var a=d.rank[i1];
-    d.rank[i1]=d.rank[i2];
-    d.rank[i2]=a;
+    ra.sort(rCompare);
+
+    for (var x=0;x<4;x++)
+    {
+        d.rank[x]=ra[x].r;
+    }    
 }
 
+function rCompare(a,b)
+{
+    if (parseInt(a.p)<parseInt(b.p))
+    {
+        return -1;
+    }
+
+    return 1;
+}
 runHook();

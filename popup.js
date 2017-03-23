@@ -9,6 +9,7 @@ function main()
 
     chrome.storage.local.get("pointsdata",function(d){
         var html="";
+        
         d.pointsdata.forEach(function(e){
             html+=genTableEntry(e);
         });
@@ -17,15 +18,15 @@ function main()
 
         ipoint.innerHTML=ipoint.innerHTML+html;
 
-        chrome.storage.local.set(d);
+        // chrome.storage.local.set(d);
     });
 }
 
 function genTableEntry(data)
 {
     //comment in to enable data correction
-    // data.rank=[0,1,2,3];
-    // genPlaces(data);  
+    // data.rank=new Array(4);
+    // return genPlaces(data);
 
     return `<tr>
 <td>${data.time}</td>
@@ -34,6 +35,7 @@ function genTableEntry(data)
 <td class="tc${data.rank[2]}">${data.points[2]}</td>
 <td class="tc${data.rank[3]}">${data.points[3]}</td>
 </tr>\n`;
+    
 }
 
 function linkSet()
@@ -48,37 +50,38 @@ function linkSet()
 }
 
 function genPlaces(d)
-{
-    cswap(d,0,1);
-    cswap(d,2,3);
-    cswap(d,0,2);
-    cswap(d,1,3);
-    cswap(d,1,2);
-}
+{    
+    var ra=[];
 
-function cswap(d,i1,i2)
-{
-    if (d.points[d.rank[i1]]<d.points[d.rank[i2]])
+    for (var x=0;x<4;x++)
     {
-        return;
+        ra.push({p:d.points[x],r:x});
     }
 
-    var a=d.rank[i1];
-    d.rank[i1]=d.rank[i2];
-    d.rank[i2]=a;
+    ra.sort(rCompare);
+
+    console.log(ra);
+    
+    for (var x=0;x<4;x++)
+    {
+        d.rank[ra[x].r]=x;
+    }
+
+    return `<tr>
+<td>${d.time}</td>
+<td class="tc${d.rank[0]}">${d.points[0]}</td>
+<td class="tc${d.rank[1]}">${d.points[1]}</td>
+<td class="tc${d.rank[2]}">${d.points[2]}</td>
+<td class="tc${d.rank[3]}">${d.points[3]}</td>
+</tr>\n`;
 }
 
-// function main2()
-// {
-//     chrome.storage.local.get("pointsdata",function(d){
-//         console.log(d.pointsdata);
+function rCompare(a,b)
+{
+    if (parseInt(a.p)<parseInt(b.p))
+    {
+        return -1;
+    }
 
-//         var idata=document.querySelector(".data");
-//         var datah="";
-//         d.pointsdata.forEach(function(e){
-//             datah+=`<p>${e.time} ${e.points[0]} ${e.points[1]} ${e.points[2]} ${e.points[3]}</p>`
-//         });
-
-//         idata.innerHTML=datah;
-//     });
-// }
+    return 1;
+}
