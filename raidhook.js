@@ -88,7 +88,7 @@ function genPlaces(d)
 
     for (var x=0;x<4;x++)
     {
-        d.rank[x]=ra[x].r;
+        d.rank[ra[x].r]=x;
     }    
 }
 
